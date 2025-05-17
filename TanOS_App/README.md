@@ -30,10 +30,11 @@ The application consists of:
     * Set paths to your `MEMORIES` directory and `tanos_prompts` directory.
     * Configure LLM API keys or local model paths.
 3.  **Initialize Data:**
-    * Convert your Markdown `MEMORIES` files into the structured format expected by `MemoryManager` (e.g., JSON files in `tanos_data/memories/`).
+    * Convert your Markdown `MEMORIES` files into the structured format expected by `MemoryManager` (e.g., JSON files in `tanos_data/memories/`). Use `python scripts/convert_md_memories_to_json.py` to perform a simple conversion.
     * Initialize `captains_log_state.json` and `nomad_changelog.json`.
 4.  **Run the CLI:**
     * `python -m tanos_core.main --module ChartRoom --input "Plan my week"` (Example)
+    * Log health metrics: `python -m tanos_core.main log-health --sleep-quality 7 --hrv 50 --mood "Focused"`
 
 ## Next Steps for Development
 

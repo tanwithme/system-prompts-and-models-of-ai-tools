@@ -23,6 +23,14 @@ class TanOSModuleOrchestrator:
         self.changelog_manager = NomadChangelogManager()
         print("TanOS Module Orchestrator initialized.")
 
+    def log_health_metrics(self, metrics: Dict[str, Any]) -> str:
+        """Handle health metric logging via the CrowsNest module."""
+        metric_str_parts = [f"{k}: {v}" for k, v in metrics.items() if v is not None]
+        user_input = "; ".join(metric_str_parts)
+        response = self.process_user_interaction(user_input, "CrowsNest")
+        self.state_manager.update_health_data(metrics)
+        return response
+
     def _get_full_context_for_llm(self, active_module_key: Optional[str] = None) -> str:
         """
         Compiles the full context string to be sent to the LLM.

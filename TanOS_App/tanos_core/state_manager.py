@@ -40,6 +40,7 @@ class CaptainsLogStateManager:
             "tan_current_location": DEFAULT_LOCATION,
             "tan_mood_energy_summary": "Neutral, Energy 5/10 (Initial State)",
             "health_metric_flags": "No flags active (Initial State)",
+            "latest_health_data": {},
             "active_projects": {}, # Store as dict: {"Project Name": {"status": "...", "milestone": "...", "next_step": "..."}}
             "recent_key_insights": [], # List of {"summary": "...", "date": "..."}
             "pending_decisions": {}, # {"Decision Name": {"transformative_flag": True/False}}
@@ -104,6 +105,23 @@ class CaptainsLogStateManager:
         self.save_state()
         print(f"Insight added to Captain's Log: {insight_summary}")
 
+    def update_health_data(self, metrics: Dict[str, Any]) -> None:
+        """Update latest health data and flag basic thresholds."""
+        self.state.setdefault("latest_health_data", {}).update(metrics)
+
+        flags = []
+        hrv = metrics.get("hrv")
+        if isinstance(hrv, (int, float)) and hrv < 45:
+            flags.append("HRV Low")
+
+        sleep_quality = metrics.get("sleep_quality")
+        if isinstance(sleep_quality, (int, float)) and sleep_quality < 6:
+            flags.append("Poor Sleep")
+
+        self.state["health_metric_flags"] = ", ".join(flags) if flags else "No flags active"
+        self.save_state()
+        print(f"Health data updated: {metrics}")
+
     def update_nomad_version(self, version: str) -> None:
         self.update_state_variable("nomad_version", version)
 
@@ -117,6 +135,8 @@ Operational State Snapshot (as of {current_state['current_date_time']}):
 - Tan's Location: {current_state.get('tan_current_location', 'Unknown')}
 - Tan's Reported Mood/Energy: {current_state.get('tan_mood_energy_summary', 'Not reported')}
 - Health Metric Flags: {current_state.get('health_metric_flags', 'None')}
+- Health Metric Flags: {current_state.get('health_metric_flags', 'None')}
+- Latest Health Data: {current_state.get('latest_health_data', {})}
 - Nomad Conceptual Version: {current_state.get('nomad_version', 'Unknown')}
 
 Active Projects & Focus:

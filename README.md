@@ -35,7 +35,7 @@ So, you're interested in bringing TanOS to life? Awesome! Here's a rough idea of
     * Set up any LLM API keys or paths to local models you want to use.
     * To use OpenAI, set `LLM_PROVIDER=openai` and provide `OPENAI_API_KEY` in your `.env` file.
 3.  **Get Your Data Ready:**
-    * Your Markdown `MEMORIES` files will need to be converted into a structured format that the `MemoryManager` can understand (like JSON files in `tanos_data/memories/`).
+    * Your Markdown `MEMORIES` files will need to be converted into a structured format that the `MemoryManager` can understand (like JSON files in `tanos_data/memories/`). Run `python scripts/convert_md_memories_to_json.py` to convert.
     * You'll need to initialize a `captains_log_state.json` and `nomad_changelog.json`.
 4.  **Talk to Nomad (via CLI):**
     * Something like this: `python -m tanos_core.main --module ChartRoom --input "Plan my week"` (Just an example!)
