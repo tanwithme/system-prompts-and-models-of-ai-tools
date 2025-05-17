@@ -33,6 +33,7 @@ So, you're interested in bringing TanOS to life? Awesome! Here's a rough idea of
 2.  **Tell TanOS Where to Find Things (`tanos_core/settings.py`):**
     * Point it to your `MEMORIES` folder and your `tanos_prompts`.
     * Set up any LLM API keys or paths to local models you want to use.
+    * To use OpenAI, set `LLM_PROVIDER=openai` and provide `OPENAI_API_KEY` in your `.env` file.
 3.  **Get Your Data Ready:**
     * Your Markdown `MEMORIES` files will need to be converted into a structured format that the `MemoryManager` can understand (like JSON files in `tanos_data/memories/`).
     * You'll need to initialize a `captains_log_state.json` and `nomad_changelog.json`.
