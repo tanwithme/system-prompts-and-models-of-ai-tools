@@ -61,13 +61,13 @@ def log_health_data(**kwargs):
         return
 
     crowsnest_input_str = "; ".join(log_input_parts)
-    click.echo(f"\nSimulating CrowsNest interaction with input: '{crowsnest_input_str}'")
+    click.echo(f"\nLogging health metrics: '{crowsnest_input_str}'")
 
-    response = orchestrator.process_user_interaction(crowsnest_input_str, "CrowsNest")
+    response = orchestrator.log_health_metrics(kwargs)
     click.echo("\n--- Nomad (CrowsNest) Response ---")
     click.echo(response)
     click.echo("--------------------------------")
-    click.echo("(CrowsNest would typically update Captain's Log based on this data and your defined thresholds).")
+    click.echo("Captain's Log updated with these health metrics.")
 
 @cli.command(name="view-state")
 def view_captains_log_state():
