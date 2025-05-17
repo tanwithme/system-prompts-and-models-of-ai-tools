@@ -1,6 +1,6 @@
 # tanos_core/llm_interface.py
-from typing import Dict, Any, Optional
-import time # for mock delay
+from typing import Any, Optional
+import time  # for mock delay
 
 from . import settings
 # Import specific LLM client libraries if needed, e.g.:
@@ -21,9 +21,18 @@ class LLMInterface:
     def _initialize_client(self) -> Any:
         """Initializes the LLM client based on the provider."""
         if self.provider == "openai":
-            # return OpenAI(api_key=settings.OPENAI_API_KEY)
-            print("OpenAI client would be initialized here.")
-            return None # Placeholder
+            try:
+                from openai import OpenAI
+            except ImportError as e:
+                print(f"OpenAI library not installed: {e}")
+                return None
+
+            try:
+                client = OpenAI(api_key=settings.OPENAI_API_KEY)
+                return client
+            except Exception as e:
+                print(f"Error initializing OpenAI client: {e}")
+                return None
         elif self.provider == "anthropic":
             # return anthropic.Anthropic(api_key=settings.ANTHROPIC_API_KEY)
             print("Anthropic client would be initialized here.")
@@ -70,25 +79,30 @@ class LLMInterface:
             return mock_response
 
         elif self.provider == "openai":
-            # Example implementation for OpenAI
-            # try:
-            #     messages = []
-            #     messages.append({"role": "system", "content": system_prompt})
-            #     if full_context_str: # Add context before user prompt for better grounding
-            #         messages.append({"role": "system", "content": f"Relevant Context for this interaction:\n{full_context_str}"})
-            #     messages.append({"role": "user", "content": user_prompt})
-            #     
-            #     response = self.client.chat.completions.create(
-            #         model="gpt-4o", # Or your preferred model
-            #         messages=messages,
-            #         max_tokens=max_tokens,
-            #         temperature=temperature
-            #     )
-            #     return response.choices[0].message.content.strip()
-            # except Exception as e:
-            #     print(f"Error communicating with OpenAI: {e}")
-            #     return f"[Error: Could not get response from OpenAI: {e}]"
-            pass # Placeholder for actual implementation
+            if not self.client:
+                return "[Error: OpenAI client not initialized]"
+
+            try:
+                messages = [
+                    {"role": "system", "content": system_prompt}
+                ]
+                if full_context_str:
+                    messages.append({
+                        "role": "system",
+                        "content": f"Relevant Context for this interaction:\n{full_context_str}"
+                    })
+                messages.append({"role": "user", "content": user_prompt})
+
+                response = self.client.chat.completions.create(
+                    model="gpt-4o",
+                    messages=messages,
+                    max_tokens=max_tokens,
+                    temperature=temperature,
+                )
+                return response.choices[0].message.content.strip()
+            except Exception as e:
+                print(f"Error communicating with OpenAI: {e}")
+                return f"[Error: Could not get response from OpenAI: {e}]"
 
         elif self.provider == "ollama":
             # Example implementation for Ollama
