@@ -1,0 +1,22 @@
+# Core Python
+python-dotenv~=1.0.0  # For managing environment variables (e.g., API keys)
+PyYAML~=6.0.1          # For reading/writing YAML files (MEMORIES, state)
+# requests~=2.31.0       # For making API calls to LLMs if not using their specific client libraries
+
+# CLI (Optional but recommended)
+click~=8.1.7
+
+# LLM Interaction (Examples - choose based on LLM)
+# openai~=1.23.6
+# anthropic~=0.25.0
+# llama-cpp-python~=0.2.57 # If using local GGUF models
+# ollama~=0.1.8            # If using Ollama
+
+# Database (Optional, if evolving from flat files)
+# SQLAlchemy~=2.0.29
+# alembic~=1.13.1
+
+# Future Web UI (Examples - if using Python backend for web)
+# Flask~=3.0.2
+# FastAPI~=0.110.0
+# uvicorn~=0.29.0

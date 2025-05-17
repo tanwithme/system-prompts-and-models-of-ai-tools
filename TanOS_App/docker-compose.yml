@@ -1,0 +1,17 @@
+# TanOS Application docker-compose.yml (Conceptual)
+# version: '3.8'
+
+# services:
+#   tanos_app:
+#     build: .
+#     volumes:
+#       - ./tanos_data:/app/tanos_data
+#       - ./tanos_prompts:/app/tanos_prompts
+#       # Mount your MEMORIES source if it's outside tanos_data
+#       # - /path/to/your/MEMORIES_markdown_files:/app/MEMORIES_markdown_source
+#     ports:
+#       - "8000:8000" # If exposing a web UI
+#     environment:
+#       # Define LLM API keys and other secrets here or via .env file / Docker secrets
+#       # OPENAI_API_KEY: ${OPENAI_API_KEY}
+#     # command: ["python", "-m", "tanos_core.main", "--serve-web"] # Example for web
